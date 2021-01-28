@@ -156,7 +156,9 @@ function http(url, opt, callback) {
 
   var options = {url: url, encoding: null, gzip: true, headers: headers};
   if (!callback) {
-    return require('sync-request')('GET', url, options).getBody();
+    require('then-request')('GET', url, options).done(function (res) {
+      return res.getBody();
+    });
   }
   require('request')(options, function(error, response, body) {
     if (!error && response.statusCode === 200) {
